@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:projeto_contador/controler.dart';
 
 void main() {
   runApp(
@@ -15,21 +16,7 @@ class TelaContador extends StatefulWidget {
 }
 
 class _TelaContadorState extends State<TelaContador> {
-  var resultado = 0;
-
-  void _operation(Function(int, int) func) {
-    setState(() {
-      resultado = func(resultado, 1);
-    });
-  }
-
-  int add(num1, num2) {
-    return num1 + num2;
-  }
-
-  int sub(num1, num2) {
-    return num1 - num2;
-  }
+  final controler = ContadorControler();
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +35,7 @@ class _TelaContadorState extends State<TelaContador> {
           ),
           Center(
             child: Text(
-              '$resultado',
+              controler.getContador(),
               style: TextStyle(fontSize: 24),
             ),
           ),
@@ -61,7 +48,9 @@ class _TelaContadorState extends State<TelaContador> {
             height: 50.0,
             right: 10.0,
             child: OperationFloatingActionButton(Icon(Icons.add), () {
-              _operation(add);
+              setState(() {
+                controler.incrementarContador();
+              });
             }),
           ),
           Positioned(
@@ -69,7 +58,9 @@ class _TelaContadorState extends State<TelaContador> {
               height: 50.0,
               right: 70.0,
               child: OperationFloatingActionButton(Icon(Icons.remove), () {
-                _operation(sub);
+                setState(() {
+                  controler.decrementarContador();
+                });
               }))
         ],
       ),
